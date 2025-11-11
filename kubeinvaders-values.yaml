@@ -34,3 +34,7 @@ ingress:
   annotations:
     kubernetes.io/ingress.class: nginx
   tls: []
+# RBAC (to list namespaces and manage chaos jobs)
+rbac:
+  create: true
+  clusterRole: true
