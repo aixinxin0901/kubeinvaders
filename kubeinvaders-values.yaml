@@ -1,0 +1,36 @@
+# KubeInvaders chart values
+replicaCount: 1
+
+image:
+  repository: luckysideburn/kubeinvaders
+  tag: "v1.9.7"
+  pullPolicy: IfNotPresent
+
+# Environment variables for namespace targeting
+extraEnvs:
+  - name: NAMESPACE
+    value: "kubeinvaders"
+  - name: TARGET_NAMESPACE
+    value: "app1,app2"
+
+# Service
+service:
+  type: ClusterIP
+  port: 80
+
+containerPort: 8080
+
+# Prometheus scrape hints (for Splunk OTel)
+podAnnotations:
+  prometheus.io/scrape: "true"
+  prometheus.io/port: "8080"
+  prometheus.io/path: "/metrics"
+
+# Ingress
+ingress:
+  enabled: true
+  className: nginx
+  hostName: kubeinvaders.4.197.187.1.nip.io  # 👈 update if IP changes
+  annotations:
+    kubernetes.io/ingress.class: nginx
+  tls: []
