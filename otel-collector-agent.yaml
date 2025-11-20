@@ -1,0 +1,46 @@
+agent:
+  config:
+    receivers:
+      prometheus/kubeinvaders:
+        config:
+          scrape_configs:
+          - job_name: kubeinvaders
+            metrics_path: /metrics
+            scrape_interval: 10s
+            static_configs:
+            - targets:
+              - kubeinvaders.kubeinvaders.svc.cluster.local:8080
+    service:
+      pipelines:
+        metrics/kubeinvaders:
+          exporters:
+          - signalfx
+          processors:
+          - memory_limiter
+          - batch
+          - resourcedetection
+          - resource
+          receivers:
+          - prometheus/kubeinvaders
+  discovery:
+    enabled: true
+autodetect:
+  prometheus: true
+cloudProvider: azure
+clusterName: kubeinvaders
+distribution: aks
+environment: lab
+gateway:
+  enabled: false
+operator:
+  enabled: true
+operatorcrds:
+  install: true
+splunkObservability:
+  accessToken: tq0zrbGSMPPLjpKb0fFd4g
+  realm: au0
+splunkPlatform:
+  endpoint: https://http-inputs-ac3-bg.splunkcloud.com/services/collector/event
+  index: main
+  insecureSkipVerify: true
+  token: 4c5d9756-f9b4-4752-b7b4-e470902df02e
